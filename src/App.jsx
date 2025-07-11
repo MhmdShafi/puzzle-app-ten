@@ -26,7 +26,7 @@ function App() {
 
     setPuzzleSize(size); 
     const totalBlocks = size * size;
-    setTimerSec(totalBlocks);
+    setTimerSec(totalBlocks *2);
     setHasTimedOut(false); 
     setTimeOutPop(false);
     setShowPopup(false);
