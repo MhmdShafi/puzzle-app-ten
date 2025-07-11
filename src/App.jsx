@@ -67,19 +67,16 @@ function App() {
   const handleDragOver = (e) => e.preventDefault();
 
     const handleClosePopup = () => {
-  if (timeoutPop) {
-    window.location.reload(); 
-  } else {
-   
-    setPuzzleData([]);
-    setPuzzleSize(2);
-    setInputSize(2);
-    setShowPopup(false);
-    setTimeOutPop(false);
-    setHasTimedOut(false);
-    setTimerSec(0);
-  }
+  setPuzzleData([]);
+  setPuzzleSize(2);
+  setInputSize(2);
+  setShowPopup(false);
+  setTimeOutPop(false);
+  setHasTimedOut(false);
+  setTimerSec(0);
+  setIsGameStarted(false); 
 };
+;
 
   return (
     <div className="w-full relative p-7">
@@ -141,7 +138,7 @@ function App() {
     <div className="m-auto mt-[200px] flex flex-col items-center w-fit bg-transparent p-8 rounded-[12px] shadow-xl">
       <h1 className="text-[60px] font-bold text-center">Welcome to the team!</h1>
       <button
-        className="bg-[white] border mt-4 border-gray-400 max-w-[100px] rounded-[8px] py-[8px] w-full"
+        className="cursor-pointer bg-white border mt-4 border-gray-400 max-w-[100px] rounded-[8px] py-[8px] w-full"
         onClick={handleClosePopup}
       >
         Close
@@ -153,7 +150,7 @@ function App() {
     <div className="m-auto mt-[200px] flex flex-col items-center w-fit bg-transparent p-8 rounded-[12px] shadow-xl">
       <h1 className="text-[60px] font-bold text-center">Ah! Time Out</h1>
       <button
-        className="bg-[white] border mt-4 border-gray-400 max-w-[100px] rounded-[8px] py-[8px] w-full"
+        className="cursor-pointer bg-white border mt-4 border-gray-400 max-w-[100px] rounded-[8px] py-[8px] w-full"
         onClick={handleClosePopup}
       >
         Close
