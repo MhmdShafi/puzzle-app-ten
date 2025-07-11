@@ -14,7 +14,7 @@ function App() {
     const size = parseInt(inputSize);
    
 
-    setPuzzleSize(size); // update puzzle size only on click
+    setPuzzleSize(size); 
 
     const totalBlocks = size * size;
  const numbers = [];
