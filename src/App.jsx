@@ -11,6 +11,8 @@ function App() {
   const [timeoutPop, setTimeOutPop] = useState(false);
   const [hasTimedOut, setHasTimedOut] = useState(false); 
   const [timerSec, setTimerSec] = useState(4);
+ const [isGameStarted, setIsGameStarted] = useState(false);
+
 
   const timOut = () => {
     if (!hasTimedOut) {
@@ -18,10 +20,6 @@ function App() {
       setHasTimedOut(true); 
     }
   };
-
-
-
-
   const handleGenerate = (e) => {
     e.preventDefault();
     const size = parseInt(inputSize);
@@ -32,6 +30,8 @@ function App() {
     setHasTimedOut(false); 
     setTimeOutPop(false);
     setShowPopup(false);
+    setIsGameStarted(true);
+    
 
     const numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
 
@@ -108,7 +108,10 @@ function App() {
           </button>
         </form>
 
-        <Timmer key={timerSec} initialSecond={timerSec} timeOut={timOut} />
+       {isGameStarted && (
+  <Timmer key={timerSec} initialSecond={timerSec} timeOut={timOut} />
+)}
+
       </div>
 
       <br />
@@ -134,7 +137,7 @@ function App() {
       )}
 
       {showPopup ? (
-  <div className="fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
+  <div className=" fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
     <div className="m-auto mt-[200px] flex flex-col items-center w-fit bg-transparent p-8 rounded-[12px] shadow-xl">
       <h1 className="text-[60px] font-bold text-center">Welcome to the team!</h1>
       <button
@@ -148,7 +151,7 @@ function App() {
 ) : timeoutPop && (
   <div className="fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
     <div className="m-auto mt-[200px] flex flex-col items-center w-fit bg-transparent p-8 rounded-[12px] shadow-xl">
-      <h1 className="text-[60px] font-bold text-red-400 text-center">Ah! Time Out</h1>
+      <h1 className="text-[60px] font-bold text-center">Ah! Time Out</h1>
       <button
         className="bg-[white] border mt-4 border-gray-400 max-w-[100px] rounded-[8px] py-[8px] w-full"
         onClick={handleClosePopup}
