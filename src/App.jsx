@@ -2,8 +2,8 @@
 import { useState } from 'react';
 
 function App() {
-  const [inputSize, setInputSize] = useState(2); // holds input field value
-  const [puzzleSize, setPuzzleSize] = useState(2); // used to render puzzle
+  const [inputSize, setInputSize] = useState(2); 
+  const [puzzleSize, setPuzzleSize] = useState(2); 
   const [puzzleData, setPuzzleData] = useState([]);
   const [dragIndex, setDragIndex] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -12,15 +12,18 @@ function App() {
     e.preventDefault();
 
     const size = parseInt(inputSize);
-    if (isNaN(size) || size < 2 || size > 6) {
-      alert('Enter a puzzle size between 2 and 6.');
-      return;
-    }
+   
 
-    setPuzzleSize(size); // update puzzle size only on click
+    setPuzzleSize(size); 
 
     const totalBlocks = size * size;
-    const numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
+ const numbers = [];
+
+for (let i = 0; i < totalBlocks; i++) {
+  const value = i + 1;
+  numbers[i] = value;
+}
+
 
     // Shuffle
     for (let i = numbers.length - 1; i > 0; i--) {
@@ -75,13 +78,13 @@ function App() {
             onChange={(e) => setInputSize(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-                e.preventDefault(); // prevent number spinner
+                e.preventDefault(); 
               }
             }}
           />
           <button
             type="submit"
-            className="p-1 min-h-[48px] font-semibold max-w-[96px] w-full text-white bg-red-400 rounded-[8px]"
+            className="cursor-pointer p-1 min-h-[48px] font-semibold max-w-[96px] w-full text-white bg-red-400 rounded-[8px]"
           >
             Create!
           </button>
