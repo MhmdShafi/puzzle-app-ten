@@ -1,6 +1,6 @@
 import React from 'react'
 
-const itemContainer = ({puzzleData,ha}) => {
+const ItemContainer = ({puzzleData,puzzleSize,handleDragOver,handleDragStart,handleDrop}) => {
   return (
     <>
      {puzzleData.length > 0 && (
@@ -26,4 +26,4 @@ const itemContainer = ({puzzleData,ha}) => {
   )
 }
 
-export default itemContainer
+export default ItemContainer
