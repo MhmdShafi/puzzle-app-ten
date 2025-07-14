@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Timmer from './components/Timmer';
-import SortToggle from './components/SortToggle';
+// import SortToggle from './components/SortToggle';
 import ItemContainer from './components/ItemContainer';
+import Dropdown from './components/Dropdown';
 
 function App() {
   const [inputSize, setInputSize] = useState(2);
@@ -24,35 +25,53 @@ function App() {
     }
   };
 
-  const handleGenerate = (e) => {
-    e.preventDefault();
-    const size = parseInt(inputSize);
+  
+const handleGenerate = (e) => {
+  e.preventDefault();
+  const size = parseInt(inputSize);
+  const totalBlocks = size * size;
 
-    setPuzzleSize(size);
-    const totalBlocks = size * size;
-    setTimerSec(totalBlocks * 2);
-    setHasTimedOut(false);
-    setTimeOutPop(false);
-    setShowPopup(false);
-    setIsGameStarted(true);
+  setPuzzleSize(size);
+  setTimerSec(totalBlocks * 2);
+  setHasTimedOut(false);
+  setTimeOutPop(false);
+  setShowPopup(false);
+  setIsGameStarted(true);
 
-    const numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
+  let numbers;
 
-    // Shuffle
-    for (let i = numbers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-    }
+  if (sortOrder === 'even') {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => (i + 1) * 2);
+  } else if (sortOrder === 'odd') {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => i * 2 + 1);
+  } else {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
+  }
 
-    setPuzzleData(numbers);
-  };
+  // Shuffle the numbers
+  for (let i = numbers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  }
 
-  // UPDATED: checks according to current sortOrder
-  const isSolved = (arr) => {
-    if (sortOrder === 'asc') return arr.every((val, idx) => val === idx + 1);
-    // descending
-    return arr.every((val, idx) => val === arr.length - idx);
-  };
+  setPuzzleData(numbers);
+};
+
+
+const isSolved = (arr) => {
+  switch (sortOrder) {
+    case 'asc':
+      return arr.every((val, idx) => val === idx + 1);
+    case 'desc':
+      return arr.every((val, idx) => val === arr.length - idx);
+    case 'even':
+      return arr.every((val, idx) => val === (idx + 1) * 2);
+    case 'odd':
+      return arr.every((val, idx) => val === idx * 2 + 1);
+    default:
+      return false;
+  }
+};
 
   const handleDragStart = (index) => setDragIndex(index);
 
@@ -90,7 +109,7 @@ function App() {
     <div className="w-full relative p-7">
       <div className="w-full p-[12px]">
         <form
-          className="flex items-center justify-center"
+          className="pl-[90px] flex items-center justify-center mx-auto"
           onSubmit={handleGenerate}
         >
           <h1 className="text-red-400 font-bold text-[20px] mr-[8px]">
@@ -104,9 +123,7 @@ function App() {
             max="6"
             value={inputSize}
             onChange={(e) => setInputSize(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault();
-            }}
+           
           />
           <button
             type="submit"
@@ -114,7 +131,8 @@ function App() {
           >
             Create!
           </button>
-          <SortToggle sortOrder={sortOrder} setSortOrder={setSortOrder} />
+          {/* <SortToggle sortOrder={sortOrder} setSortOrder={setSortOrder} /> */}
+          <Dropdown sortOrder={sortOrder} setSortOrder={setSortOrder} />
         </form>
 
         {isGameStarted && (
@@ -131,7 +149,7 @@ function App() {
  handleDrop={handleDrop}
 />
       {showPopup ? (
-        <div className="fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
+        <div className="mx-auto fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
           <div className="m-auto mt-[200px] flex flex-col items-center w-fit bg-transparent p-8 rounded-[12px] shadow-xl">
             <h1 className="text-[60px] font-bold text-center">
               Welcome to the team!
