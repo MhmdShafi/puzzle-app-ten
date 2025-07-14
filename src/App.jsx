@@ -29,7 +29,7 @@ function App() {
 const handleGenerate = (e) => {
   e.preventDefault();
   const size = parseInt(inputSize);
-  const totalBlocks = size * size;
+  const totalBlocks = 10;
 
   setPuzzleSize(size);
   setTimerSec(totalBlocks * 2);
@@ -48,7 +48,7 @@ const handleGenerate = (e) => {
     numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
   }
 
-  // Shuffle the numbers
+  // Shuffle 
   for (let i = numbers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
@@ -58,20 +58,43 @@ const handleGenerate = (e) => {
 };
 
 
-const isSolved = (arr) => {
-  switch (sortOrder) {
-    case 'asc':
-      return arr.every((val, idx) => val === idx + 1);
-    case 'desc':
-      return arr.every((val, idx) => val === arr.length - idx);
-    case 'even':
-      return arr.every((val, idx) => val === (idx + 1) * 2);
-    case 'odd':
-      return arr.every((val, idx) => val === idx * 2 + 1);
-    default:
-      return false;
-  }
+// const isSolved = (arr) => {
+//   switch (sortOrder) {
+//     case 'asc':
+//       return arr.every((val, idx) => val === idx + 1);
+//     case 'desc':
+//       return arr.every((val, idx) => val === arr.length - idx);
+//     case 'even':
+//       return arr.every((val, idx) => val === (idx + 1) * 2);
+//     case 'odd':
+//       return arr.every((val, idx) => val === idx * 2 + 1);
+//     default:
+//       return false;
+//   }
+// };
+
+
+const isSorted = (arr, direction) => {
+  return arr.every((val, i, a) => {
+    if (i === 0) return true;
+    return direction === 'asc' ? a[i - 1] <= val : a[i - 1] >= val;
+  });
 };
+
+const isSolved = (arr) => {
+  const half = Math.ceil(arr.length / 2);
+  const leftHalf = arr.slice(0, half);
+  const rightHalf = arr.slice(half);
+
+  // Split even and odd from each side
+  const leftAllEven = leftHalf.every(val => val % 2 === 0);
+  const rightAllOdd = rightHalf.every(val => val % 2 === 1);
+
+  if (!leftAllEven || !rightAllOdd) return false;
+
+  return isSorted(leftHalf, sortOrder) && isSorted(rightHalf, sortOrder);
+};
+
 
   const handleDragStart = (index) => setDragIndex(index);
 
