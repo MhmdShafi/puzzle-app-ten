@@ -29,7 +29,7 @@ function App() {
 const handleGenerate = (e) => {
   e.preventDefault();
   const size = parseInt(inputSize);
-  const totalBlocks = 10;
+  const totalBlocks = (size * size)*2;
 
   setPuzzleSize(size);
   setTimerSec(totalBlocks * 2);
