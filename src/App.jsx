@@ -38,16 +38,16 @@ const handleGenerate = (e) => {
   setShowPopup(false);
   setIsGameStarted(true);
 
-  let numbers;
+  // let numbers;
 
-  if (sortOrder === 'even') {
-    numbers = Array.from({ length: totalBlocks }, (_, i) => (i + 1) * 2);
-  } else if (sortOrder === 'odd') {
-    numbers = Array.from({ length: totalBlocks }, (_, i) => i * 2 + 1);
-  } else {
-    numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
-  }
-
+  // if (sortOrder === 'even') {
+  //   numbers = Array.from({ length: totalBlocks }, (_, i) => (i + 1) * 2);
+  // } else if (sortOrder === 'odd') {
+  //   numbers = Array.from({ length: totalBlocks }, (_, i) => i * 2 + 1);
+  // } else {
+  //   numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
+  // }
+  const numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
   // Shuffle 
   for (let i = numbers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

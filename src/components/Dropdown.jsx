@@ -18,18 +18,15 @@ const Dropdown = ({ sortOrder, setSortOrder }) => {
       >
         {sortOrder === 'asc'
           ? 'Ascending'
-          : sortOrder === 'desc'
-          ? 'Descending'
-          : sortOrder === 'even'
-          ? 'Even'
-          : 'Odd'}
+          : 'Descending'
+         }
       </button>
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute mt-2 w-full bg-blue-500 rounded-[8px] shadow-lg z-10">
+        <div className="absolute mt-2 w-full bg-gray-500 rounded-[8px] shadow-lg z-10">
           <ul className="text-sm text-white">
-            {['asc', 'desc', 'even', 'odd'].map((option) => (
+            {['asc', 'desc'].map((option) => (
               <li key={option}>
                 <button
                   onClick={() => handleSelect(option)}
