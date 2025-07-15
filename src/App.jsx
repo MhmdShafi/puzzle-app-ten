@@ -25,11 +25,14 @@ function App() {
     }
   };
 
-  
 const handleGenerate = (e) => {
   e.preventDefault();
   const size = parseInt(inputSize);
-  const totalBlocks = (size * size)*2;
+  let totalBlocks;
+  if(sortOrder==='even'|| sortOrder==='odd'){
+     totalBlocks = (size * size);
+  }else{
+   totalBlocks = (size * size)*2;}
 
   setPuzzleSize(size);
   setTimerSec(totalBlocks * 2);
@@ -38,17 +41,17 @@ const handleGenerate = (e) => {
   setShowPopup(false);
   setIsGameStarted(true);
 
-  // let numbers;
+  let numbers;
 
-  // if (sortOrder === 'even') {
-  //   numbers = Array.from({ length: totalBlocks }, (_, i) => (i + 1) * 2);
-  // } else if (sortOrder === 'odd') {
-  //   numbers = Array.from({ length: totalBlocks }, (_, i) => i * 2 + 1);
-  // } else {
-  //   numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
-  // }
-  const numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1);
-  // Shuffle 
+  if (sortOrder === 'even') {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => 2 * (i + 1)); 
+  } else if (sortOrder === 'odd') {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => 2 * i + 1);
+  } else {
+    numbers = Array.from({ length: totalBlocks }, (_, i) => i + 1); 
+  }
+
+  // Shuffle the numbers
   for (let i = numbers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
@@ -58,30 +61,40 @@ const handleGenerate = (e) => {
 };
 
 
-// const isSolved = (arr) => {
-//   switch (sortOrder) {
-//     case 'asc':
-//       return arr.every((val, idx) => val === idx + 1);
-//     case 'desc':
-//       return arr.every((val, idx) => val === arr.length - idx);
-//     case 'even':
-//       return arr.every((val, idx) => val === (idx + 1) * 2);
-//     case 'odd':
-//       return arr.every((val, idx) => val === idx * 2 + 1);
-//     default:
-//       return false;
-//   }
-// };
-
 
 const isSorted = (arr, direction) => {
-  return arr.every((val, i, a) => {
-    if (i === 0) return true;
-    return direction === 'asc' ? a[i - 1] <= val : a[i - 1] >= val;
-  });
+  if (direction === 'even') {
+    return arr.every((val, i, a) =>
+      val % 2 === 0 &&
+      (i === 0 || a[i - 1] <= val)
+    );
+  }
+
+  if (direction === 'odd') {
+    return arr.every((val, i, a) =>
+      val % 2 !== 0 &&
+      (i === 0 || a[i - 1] <= val)
+    );
+  }
+
+  if (direction === 'asc') {
+    return arr.every((val, i, a) => i === 0 || a[i - 1] <= val);
+  }
+
+  if (direction === 'desc') {
+    return arr.every((val, i, a) => i === 0 || a[i - 1] >= val);
+  }
+
+  return false;
 };
 
+
+
 const isSolved = (arr) => {
+   if (sortOrder === 'even' || sortOrder === 'odd') {
+    return isSorted(arr, sortOrder); 
+  }
+
   const half = Math.ceil(arr.length / 2);
   const leftHalf = arr.slice(0, half);
   const rightHalf = arr.slice(half);
@@ -170,6 +183,7 @@ const isSolved = (arr) => {
  handleDragOver={handleDragOver}
  handleDragStart={handleDragStart}
  handleDrop={handleDrop}
+ sortOrder={sortOrder}
 />
       {showPopup ? (
         <div className="mx-auto fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center z-50">
